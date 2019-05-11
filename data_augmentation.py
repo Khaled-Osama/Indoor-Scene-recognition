@@ -1,4 +1,5 @@
 import tensorflow as tf
+from Data_Utils import *
 def gausian_noise(img, label):
   img /= 255.0
   noise = tf.random_normal(tf.shape(img), stddev=0.07)
@@ -30,6 +31,16 @@ def flipping(image, label):
   image /= 255.0
   image = tf.image.flip_left_right(image)
   return image, label
+
+'''
+function to map each image path to an image
+'''
+
+def preprocess_image(image_path, label):
+    image = tf.read_file(image_path)
+    image = tf.image.decode_jpeg(image, channels=3)
+    image = tf.cast(image, tf.float32)
+    return image, label
 
 
 def augmentation(orig_dataset, class_name):
